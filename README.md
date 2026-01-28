@@ -1,4 +1,4 @@
-# 💰 AI-Powered Personal Finance Manager (FinanceGPT)
+# 💰 AI-Powered Personal Finance Manager (FinSight)
 
 ## Software Requirements Specification (SRS) Document
 **Version:** 1.0  
@@ -31,7 +31,7 @@
 ## 1. Introduction
 
 ### 1.1 Purpose
-This document provides a comprehensive Software Requirements Specification for **FinanceGPT** - an AI-powered personal finance management application. This project is designed as an all-in-one learning platform to master:
+This document provides a comprehensive Software Requirements Specification for **FinSight** - an AI-powered personal finance management application. This project is designed as an all-in-one learning platform to master:
 - Spring Boot with Gradle-Kotlin
 - Spring Security
 - Spring AI with Google Gemini
@@ -40,7 +40,7 @@ This document provides a comprehensive Software Requirements Specification for *
 - Basic Frontend Development
 
 ### 1.2 Scope
-FinanceGPT is a personal finance management system that leverages AI to provide intelligent insights, spending analysis, budget recommendations, and financial advice. The system will track expenses, categorize transactions, predict future spending patterns, and offer personalized financial guidance.
+FinSight is a personal finance management system that leverages AI to provide intelligent insights, spending analysis, budget recommendations, and financial advice. The system will track expenses, categorize transactions, predict future spending patterns, and offer personalized financial guidance.
 
 ### 1.3 Definitions & Acronyms
 
@@ -71,7 +71,7 @@ FinanceGPT is a personal finance management system that leverages AI to provide 
 ## 2. Project Overview
 
 ### 2.1 Project Description
-**FinanceGPT** is an intelligent personal finance manager that combines traditional expense tracking with AI-powered analysis. Users can:
+**FinSight** is an intelligent personal finance manager that combines traditional expense tracking with AI-powered analysis. Users can:
 - Track income and expenses
 - Set and monitor budgets
 - Get AI-generated financial insights
@@ -83,7 +83,7 @@ FinanceGPT is a personal finance management system that leverages AI to provide 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    FINANCEGPT FEATURES                          │
+│                    FinSight FEATURES                          │
 ├─────────────────────────────────────────────────────────────────┤
 │  📊 EXPENSE TRACKING          │  🤖 AI FINANCIAL ADVISOR        │
 │  ├─ Manual entry              │  ├─ Natural language chat       │
@@ -402,7 +402,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "com.financegpt"
+group = "com.FinSight"
 version = "1.0.0"
 
 java {
@@ -481,7 +481,7 @@ tasks.withType<Test> {
 # ==================== APPLICATION PROPERTIES ====================
 spring:
   application:
-    name: financegpt
+    name: FinSight
   
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
@@ -521,7 +521,7 @@ spring:
       time-to-live: 3600000  # 1 hour in milliseconds
       cache-null-values: false
       use-key-prefix: true
-      key-prefix: "financegpt:"
+      key-prefix: "FinSight:"
 
 # ==================== AWS DYNAMODB CONFIGURATION ====================
 aws:
@@ -548,7 +548,7 @@ server:
 logging:
   level:
     root: INFO
-    com.financegpt: DEBUG
+    com.FinSight: DEBUG
     org.springframework.ai: DEBUG
     software.amazon.awssdk: WARN
   pattern:
@@ -631,7 +631,7 @@ springdoc:
 
 ```
                               ┌─────────────────────────────────────┐
-                              │         FINANCEGPT SYSTEM           │
+                              │         FinSight SYSTEM           │
                               │                                     │
     ┌──────┐                  │  ┌─────────────────────────────┐   │
     │      │                  │  │                             │   │
@@ -909,7 +909,7 @@ public class DynamoDBTableCreator {
     
     public static CreateTableRequest createUsersTable() {
         return CreateTableRequest.builder()
-            .tableName("financegpt-users")
+            .tableName("FinSight-users")
             .keySchema(
                 KeySchemaElement.builder()
                     .attributeName("PK")
@@ -962,7 +962,7 @@ public class DynamoDBTableCreator {
     
     public static CreateTableRequest createTransactionsTable() {
         return CreateTableRequest.builder()
-            .tableName("financegpt-transactions")
+            .tableName("FinSight-transactions")
             .keySchema(
                 KeySchemaElement.builder()
                     .attributeName("PK")
@@ -1582,7 +1582,7 @@ public class AIConfig {
     public ChatClient chatClient(ChatModel chatModel) {
         return ChatClient.builder(chatModel)
             .defaultSystem("""
-                You are FinanceGPT, an AI-powered financial advisor assistant.
+                You are FinSight, an AI-powered financial advisor assistant.
                 You help users manage their personal finances by:
                 - Analyzing spending patterns
                 - Providing budget recommendations
@@ -1829,11 +1829,11 @@ public class PromptTemplates {
 │  │   Pattern: {prefix}:{entity}:{userId}:{identifier}                  │    │
 │  │                                                                      │    │
 │  │   Examples:                                                         │    │
-│  │   ├─ financegpt:user:123:profile                                    │    │
-│  │   ├─ financegpt:transactions:123:2026-01                            │    │
-│  │   ├─ financegpt:budget:123:2026-01:Food                             │    │
-│  │   ├─ financegpt:analytics:123:monthly-summary                       │    │
-│  │   ├─ financegpt:ai:context:123:conv_456                             │    │
+│  │   ├─ FinSight:user:123:profile                                    │    │
+│  │   ├─ FinSight:transactions:123:2026-01                            │    │
+│  │   ├─ FinSight:budget:123:2026-01:Food                             │    │
+│  │   ├─ FinSight:analytics:123:monthly-summary                       │    │
+│  │   ├─ FinSight:ai:context:123:conv_456                             │    │
 │  │   └─ rate_limit:123:/api/v1/transactions                            │    │
 │  │                                                                      │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
@@ -1949,7 +1949,7 @@ public class RedisConfig {
 public class CacheService {
     
     private final RedisTemplate<String, Object> redisTemplate;
-    private static final String KEY_PREFIX = "financegpt:";
+    private static final String KEY_PREFIX = "FinSight:";
     
     // Cache-Aside Pattern Implementation
     public <T> T getOrCompute(String key, Class<T> type, 
@@ -2110,7 +2110,7 @@ public class CacheService {
 │                              ▼                                                │
 │   ┌─────────────────────────────────────────────────────────────────────┐    │
 │   │ STEP 2: Build AI Prompt                                             │    │
-│   │ ├─ System prompt (FinanceGPT persona)                               │    │
+│   │ ├─ System prompt (FinSight persona)                               │    │
 │   │ ├─ User financial context                                           │    │
 │   │ ├─ Conversation history (last 10 messages)                          │    │
 │   │ └─ Available tools/functions                                        │    │
@@ -2158,13 +2158,13 @@ public class CacheService {
 ### 13.1 Project Structure
 
 ```
-financegpt/
+FinSight/
 ├── src/
 │   ├── main/
 │   │   ├── java/
 │   │   │   └── com/
-│   │   │       └── financegpt/
-│   │   │           ├── FinanceGptApplication.java
+│   │   │       └── FinSight/
+│   │   │           ├── FinSightApplication.java
 │   │   │           │
 │   │   │           ├── config/
 │   │   │           │   ├── SecurityConfig.java
@@ -2259,7 +2259,7 @@ financegpt/
 │   └── test/
 │       └── java/
 │           └── com/
-│               └── financegpt/
+│               └── FinSight/
 │                   ├── controller/
 │                   ├── service/
 │                   ├── repository/
@@ -2440,7 +2440,7 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: financegpt-app
+    container_name: FinSight-app
     ports:
       - "8080:8080"
     environment:
@@ -2458,12 +2458,12 @@ services:
       dynamodb-local:
         condition: service_started
     networks:
-      - financegpt-network
+      - FinSight-network
     restart: unless-stopped
 
   redis:
     image: redis:7-alpine
-    container_name: financegpt-redis
+    container_name: FinSight-redis
     ports:
       - "6379:6379"
     volumes:
@@ -2475,24 +2475,24 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - financegpt-network
+      - FinSight-network
     restart: unless-stopped
 
   dynamodb-local:
     image: amazon/dynamodb-local:latest
-    container_name: financegpt-dynamodb
+    container_name: FinSight-dynamodb
     ports:
       - "8000:8000"
     volumes:
       - dynamodb-data:/home/dynamodblocal/data
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data"
     networks:
-      - financegpt-network
+      - FinSight-network
     restart: unless-stopped
 
   dynamodb-admin:
     image: aaronshaf/dynamodb-admin
-    container_name: financegpt-dynamodb-admin
+    container_name: FinSight-dynamodb-admin
     ports:
       - "8001:8001"
     environment:
@@ -2500,14 +2500,14 @@ services:
     depends_on:
       - dynamodb-local
     networks:
-      - financegpt-network
+      - FinSight-network
 
 volumes:
   redis-data:
   dynamodb-data:
 
 networks:
-  financegpt-network:
+  FinSight-network:
     driver: bridge
 ```
 
@@ -2609,7 +2609,7 @@ server:
 logging:
   level:
     root: WARN
-    com.financegpt: INFO
+    com.FinSight: INFO
   pattern:
     console: '{"timestamp":"%d{ISO8601}","level":"%p","logger":"%logger","message":"%m"}%n'
 
@@ -2889,7 +2889,7 @@ spring:
 logging:
   level:
     root: WARN
-    com.financegpt: DEBUG
+    com.FinSight: DEBUG
 ```
 
 ---
@@ -2965,7 +2965,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **Aryan Jaiswal**
 - Learning: Spring Boot, Spring Security, Spring AI, Redis, DynamoDB
-- Project: FinanceGPT - AI-Powered Personal Finance Manager
+- Project: FinSight - AI-Powered Personal Finance Manager
 
 ---
 
